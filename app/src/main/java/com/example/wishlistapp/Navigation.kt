@@ -14,7 +14,10 @@ fun Navigation(
 ){
     NavHost(navController = navController, startDestination = Screen.HomeScreen.root) {
         composable(Screen.HomeScreen.root){
-            HomeView()
+            HomeView(navController = navController, viewModel = viewModel)
+        }
+        composable(Screen.AddScreen.root){
+            AddEditDetailView(id = 0L, viewModel = viewModel, navController = navController)
         }
     }
 }
