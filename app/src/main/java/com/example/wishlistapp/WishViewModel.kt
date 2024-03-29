@@ -14,7 +14,10 @@ import kotlinx.coroutines.launch
 //#4 В нашей модели представления должен быть
 //репозиторий пожеланий, который вы затем
 //можете использовать для вызова этих функций
-class WishViewModel(private val wishRepository: WishRepository) : ViewModel() {
+class WishViewModel(
+    private val wishRepository: WishRepository
+) : ViewModel() {
+
     var wishTitleState by mutableStateOf("")
     var wishDescriptionState by mutableStateOf("")
 
