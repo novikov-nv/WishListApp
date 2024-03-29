@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 //репозиторий пожеланий, который вы затем
 //можете использовать для вызова этих функций
 class WishViewModel(
-    private val wishRepository: WishRepository
+    private val wishRepository: WishRepository = Graph.wishRepository
 ) : ViewModel() {
 
     var wishTitleState by mutableStateOf("")
