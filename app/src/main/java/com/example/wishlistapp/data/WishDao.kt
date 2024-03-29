@@ -8,6 +8,10 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
+
+//#2 вы настраиваете свой wish Dao,
+//где вы в основном говорите,
+//что такое Crud-операции
 @Dao
 abstract class WishDao {
 

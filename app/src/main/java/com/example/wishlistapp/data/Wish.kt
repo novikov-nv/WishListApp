@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+//#1 должен быть класс данных,
+//который будет представлять собой информацию,
+//которую вы хотите сохранить.
 @Entity(tableName = "wish-table")
 data class Wish(
     @PrimaryKey(autoGenerate = true)
