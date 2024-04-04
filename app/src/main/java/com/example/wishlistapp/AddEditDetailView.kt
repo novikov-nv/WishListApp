@@ -100,8 +100,16 @@ fun AddEditDetailView(
                     && viewModel.wishDescriptionState.isNotEmpty()
                 ) {
                     if (id != 0L) {
-                        //TODO fun UpdateWish()
+                        //fun UpdateWish()
+                        viewModel.updateWish(
+                            Wish(
+                                id = id,
+                                title = viewModel.wishTitleState.trim(),
+                                description = viewModel.wishDescriptionState.trim()
+                            )
+                        )
                     } else{
+                        // add Wish
                         viewModel.addWish(
                             Wish(title = viewModel.wishTitleState.trim(),
                                 //trim-на случай, если у нас останется пустое место в начале или в конце, я собираюсь избавиться
