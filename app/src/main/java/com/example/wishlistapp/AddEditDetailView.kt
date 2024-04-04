@@ -13,7 +13,11 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,7 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-
+import com.example.wishlistapp.data.Wish
+import kotlinx.coroutines.launch
 
 @Composable
 fun AddEditDetailView(
@@ -33,6 +38,15 @@ fun AddEditDetailView(
     viewModel: WishViewModel,
     navController: NavController
 ) {
+    val snackMessage = remember{
+        mutableStateOf("")
+    }
+    val scope = rememberCoroutineScope()
+    //мы можем использовать эту область для запуска асинхронных методов, таких как хранение данных в нашей базе данных
+
+    val scaffoldState = rememberScaffoldState()
+    // внутри этого каркаса если мы хотим убедиться, что все в порядке и пользовательский интерфейс
+    //обновлено, как только что-то изменится, нам потребуется состояние каркаса, которое будет, помнит
     Scaffold(
         topBar = {
             AppBarView(
@@ -41,7 +55,8 @@ fun AddEditDetailView(
                 else stringResource(id = R.string.add_wish),
                 onBackNavClicked = {navController.navigateUp()}
             )
-        }
+        },
+        scaffoldState = scaffoldState
     )
     {
         Column(
@@ -74,11 +89,24 @@ fun AddEditDetailView(
                 if (viewModel.wishTitleState.isNotEmpty()
                     && viewModel.wishDescriptionState.isNotEmpty()
                 ) {
-                    //TODO fun UpdateWish()
+                    if (id != 0L) {
+                        //TODO fun UpdateWish()
+                    } else{
+                        viewModel.addWish(
+                            Wish(title = viewModel.wishTitleState.trim(),
+                                //trim-на случай, если у нас останется пустое место в начале или в конце, я собираюсь избавиться
+                                description = viewModel.wishDescriptionState.trim()
+                            )
+                        )
+                        snackMessage.value = "Wish has been created"
+                    }
                 } else {
-                    //TODO fun AddWish()
+                    snackMessage.value = "Enter fields to create a wish"
                 }
-
+                scope.launch {//должно происходить параллельно
+                    scaffoldState.snackbarHostState.showSnackbar(snackMessage.value)
+                    navController.navigateUp()
+                }
             }) {
                 Text(
                     text = if (id != 0L) stringResource(id = R.string.update_wish)
