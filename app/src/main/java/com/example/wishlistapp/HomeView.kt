@@ -50,7 +50,7 @@ fun HomeView(
                 onClick = {
                     /* TODO Add navigation to add screen*/
                     //Toast.makeText(context, "Button Clicked", Toast.LENGTH_LONG).show()
-                    navController.navigate(Screen.AddScreen.root)
+                    navController.navigate(Screen.AddScreen.root + "/0L")
                 }
             )
             {
@@ -67,6 +67,8 @@ fun HomeView(
         {
             items(wishlist.value){ wish ->
                 WishItem(wish = wish) {
+                    val id = wish.id
+                    navController.navigate(Screen.AddScreen.root + "/$id")
                 }
             }
         }

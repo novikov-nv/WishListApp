@@ -15,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -47,6 +48,15 @@ fun AddEditDetailView(
     val scaffoldState = rememberScaffoldState()
     // внутри этого каркаса если мы хотим убедиться, что все в порядке и пользовательский интерфейс
     //обновлено, как только что-то изменится, нам потребуется состояние каркаса, которое будет, помнит
+
+    if(id != 0L){
+        val wish = viewModel.getAWishById(id).collectAsState(initial = Wish(0L,","))
+        viewModel.wishTitleState = wish.value.title
+        viewModel.wishDescriptionState = wish.value.description
+    }else{
+        viewModel.wishTitleState = ""
+        viewModel.wishDescriptionState = ""
+    }
     Scaffold(
         topBar = {
             AppBarView(
